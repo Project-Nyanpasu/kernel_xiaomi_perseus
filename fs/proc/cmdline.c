@@ -24,7 +24,7 @@ static const struct file_operations cmdline_proc_fops = {
 	.release	= single_release,
 };
 
-#define DYN_PART_CMDLINE_FIND "skip_initramfs"
+#define DYN_PART_CMDLINE_FIND "skip_initramf"
 #define DYN_PART_CMDLINE_REPLACE "androidboot.force_normal_boot=1"
 
 static int __init proc_cmdline_init(void)
