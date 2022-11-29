@@ -85,6 +85,9 @@ DT_REMOVE("device-tree/firmware/android/fstab/"#_name)
 DT_FILE_INIT(fstab_compatible, "android,fstab")
 DT_FILE_INIT(fstab_name, "fstab")
 
+static char vendorblockdevice[53];
+DT_PARTITION_INIT(vendor, vendorblockdevice, "wait,avb", "ro", "ext4")
+
 static int __init dt_fstab_proc_init(void)
 {
 	// Setup basic hierarchy
@@ -92,11 +95,15 @@ static int __init dt_fstab_proc_init(void)
 	DT_FILE_CREATE(fstab_compatible, "device-tree/firmware/android/fstab/compatible")
 	DT_FILE_CREATE(fstab_name, "device-tree/firmware/android/fstab/name")
 
+	strcpy(vendorblockdevice, "/dev/block/platform/soc/1d84000.ufshc/by-name/vendor");
+	DT_PARTITION_CREATE(vendor)
 	return 0;
 }
 
 static void __exit dt_fstab_proc_exit(void)
 {
+	DT_PARTITION_REMOVE(vendor)
+
 	// Cleanup basic hierarchy
 	DT_REMOVE("device-tree/firmware/android/fstab/name")
 	DT_REMOVE("device-tree/firmware/android/fstab/compatible")
